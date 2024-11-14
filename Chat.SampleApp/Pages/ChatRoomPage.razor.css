@@ -1,0 +1,43 @@
+.wrapper {
+    height: 100%;
+    padding: var(--space-l);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    grid-gap: var(--space-l);
+}
+
+.wrapper>div:last-child {
+    display: flex;
+    gap: var(--space-l);
+}
+
+.wrapper>div:last-child>.btn {
+    width: auto;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+li {
+    padding: var(--space-l);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto;
+    grid-gap: var(--space-l);
+}
+
+.sender,
+.timestamp {
+    font-size: 12px;
+}
+
+.message {
+    padding-left: var(--space-l);
+}
+
+.timestamp {
+    color: #888;
+}

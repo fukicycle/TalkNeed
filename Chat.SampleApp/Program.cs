@@ -13,5 +13,6 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<IFirebaseService, FirebaseService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IChatRoomService, ChatRoomService>();
+builder.Services.AddScoped<IChatService, ChatService>();
 
 await builder.Build().RunAsync();

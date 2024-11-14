@@ -1,11 +1,54 @@
 ﻿@page "/chat-room"
-<div>@ChatRoomId</div>
+@inject IChatService ChatService
+@using Chat.SampleApp.Models;
+<div class="wrapper">
+    <div class="list">
+        @if (_messageList == null)
+        {
+            <div>Loading...</div>
+        }
+        else
+        {
+            <ul>
+                @foreach (var item in _messageList)
+                {
+                    <li>
+                        <div>
+                            <div class="sender">@item.Sender</div>
+                            <div class="message">@item.Content</div>
+                        </div>
+                        <div class="timestamp">@item.Timestamp.ToString("HH:mm")</div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+    <div>
+        <input class="input" type="text" @bind=@message />
+        <button class="btn" @onclick=@SendButtonOnClick>Send</button>
+    </div>
+</div>
 @code {
     [SupplyParameterFromQuery(Name = "chat-room-id")]
     public Guid ChatRoomId { get; set; }
+    [SupplyParameterFromQuery(Name = "user-id")]
+    public Guid UserId { get; set; }
+
+    private string? message { get; set; }
+
+    private IEnumerable<Message>? _messageList;
 
     protected override async Task OnParametersSetAsync()
     {
+        _messageList = await ChatService.GetMessageListAsync(ChatRoomId);
+    }
 
+    private async Task SendButtonOnClick()
+    {
+        if (string.IsNullOrEmpty(message))
+        {
+            return;
+        }
+        await ChatService.AddNewMessage(ChatRoomId, UserId, message);
     }
 }

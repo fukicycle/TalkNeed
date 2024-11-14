@@ -42,6 +42,6 @@
 
     private void ChatListOnClick(Guid chatId)
     {
-        NavigationManager.NavigateTo($"chat-room/?chat-room-id={chatId}");
+        NavigationManager.NavigateTo($"chat-room/?chat-room-id={chatId}&user-id={UserId}");
     }
 }
