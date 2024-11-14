@@ -1,0 +1,47 @@
+﻿@page "/chat-list"
+@using Chat.SampleApp.Models
+@inject IChatRoomService ChatRoomService
+@inject NavigationManager NavigationManager
+<div class="wrapper">
+    <ul>
+        @foreach (var chatRoom in _chatRoomList)
+        {
+            <li @onclick=@(() => ChatListOnClick(chatRoom.Id))>
+                <div class="body">
+                    <div class="title">@chatRoom.Title</div>
+                    <div class="message">
+                        @if (string.IsNullOrEmpty(chatRoom.LastMessage))
+                        {
+                            <span></span>
+                        }
+                        else
+                        {
+                            <span>@chatRoom.LastMessage</span>
+                        }
+                    </div>
+                </div>
+                <div class="timestamp">@chatRoom.Timestamp.ToString("HH:mm")</div>
+            </li>
+        }
+    </ul>
+</div>
+@code {
+    [SupplyParameterFromQuery(Name = "user-id")]
+    public Guid UserId { get; set; }
+
+    private List<ChatRoom> _chatRoomList = new List<ChatRoom>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _chatRoomList.Clear();
+        await foreach (var chatRoom in ChatRoomService.GetChatRoomListAsync(UserId))
+        {
+            _chatRoomList.Add(chatRoom);
+        }
+    }
+
+    private void ChatListOnClick(Guid chatId)
+    {
+        NavigationManager.NavigateTo($"chat-room/?chat-room-id={chatId}");
+    }
+}

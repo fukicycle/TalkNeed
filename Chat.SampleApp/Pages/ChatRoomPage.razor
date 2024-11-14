@@ -1,0 +1,11 @@
+﻿@page "/chat-room"
+<div>@ChatRoomId</div>
+@code {
+    [SupplyParameterFromQuery(Name = "chat-room-id")]
+    public Guid ChatRoomId { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+
+    }
+}

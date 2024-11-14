@@ -1,0 +1,27 @@
+.wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding: var(--space-m);
+    overflow: auto;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+li {
+    padding: var(--space-l);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto;
+    cursor: pointer;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+}
