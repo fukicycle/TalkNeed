@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>NeedTalk</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <link href="Chat.SampleApp.styles.css" rel="stylesheet" />
+</head>
+
+<body class="roboto-regular">
+    <div id="app">Loading...</div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDSB0ARDSxLjtVot3a0T778Klb2seSKo_k",
+            authDomain: "test-chat-36e47.firebaseapp.com",
+            databaseURL: "https://test-chat-36e47-default-rtdb.firebaseio.com",
+            projectId: "test-chat-36e47",
+            storageBucket: "test-chat-36e47.firebasestorage.app",
+            messagingSenderId: "42540604174",
+            appId: "1:42540604174:web:27a3998d86931e877e555f"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+    </script>
+</body>
+
+</html>

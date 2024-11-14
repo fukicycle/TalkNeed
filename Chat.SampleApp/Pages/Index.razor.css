@@ -1,0 +1,22 @@
+﻿.wrapper {
+    height: 100%;
+    padding: var(--space-l);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-up {
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    align-items: center;
+    justify-content: center;
+    min-width: 220px;
+    min-height: 360px;
+}
+
+    .sign-up .input {
+        text-align: center;
+    }

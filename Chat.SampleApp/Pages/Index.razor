@@ -1,0 +1,43 @@
+﻿@page "/"
+@inject IUserService UserService
+@inject ILocalStorageService LocalStorageService
+@inject NavigationManager NavigationManager
+<div class="wrapper">
+    <div class="sign-up glass">
+        <div class="title">We need talk?</div>
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40 24C40 16.458 40 12.686 37.656 10.344C35.312 8.002 31.542 8 24 8C16.458 8 12.686 8 10.344 10.344C8.002 12.688 8 16.458 8 24V36C8 37.886 8 38.828 8.586 39.414C9.172 40 10.114 40 12 40H24C31.542 40 35.314 40 37.656 37.656C39.998 35.312 40 31.542 40 24Z" stroke="black" stroke-width="2" />
+            <path d="M18 20H30M18 28H24" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <input class="input" placeholder="nickname" type="text" @bind=@nickname />
+        <button class="btn" @onclick=@RegisterButtonOnClick>Register</button>
+    </div>
+</div>
+@code {
+    private string nickname { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Guid? id = await LocalStorageService.GetItemAsync<Guid>("user-id");
+        if (id != null && id.Value != Guid.Empty)
+        {
+            NavigateToChat(id.Value);
+        }
+    }
+
+    private async Task RegisterButtonOnClick()
+    {
+        if (string.IsNullOrEmpty(nickname))
+        {
+            return;
+        }
+        Guid id = await UserService.RegisterAsync(nickname);
+        await LocalStorageService.SetItemAsync("user-id", id);
+        NavigateToChat(id);
+    }
+
+    private void NavigateToChat(Guid id)
+    {
+        NavigationManager.NavigateTo($"chat-list/?user-id={id}");
+    }
+}
