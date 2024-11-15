@@ -45,10 +45,10 @@
 
         const app = initializeApp(firebaseConfig);
         const messaging = getMessaging(app);
-
+        const swRegistration = await navigator.serviceWorker.register("firebase-messaging-sw.js");
         async function requestPermission() {
             try {
-                const token = await getToken(messaging, { vapidKey: 'BICW34W-sY9fCLNG8RIVS7gk5_ojVJKKG0Nqqr-6jUjbHf2rjyptGy22qDTyoFh1YoZbtGJbN0iZSg0t5xzxoR4' });
+                const token = await getToken(messaging, { serviceWorkerRegistration: swRegistration, vapidKey: 'BICW34W-sY9fCLNG8RIVS7gk5_ojVJKKG0Nqqr-6jUjbHf2rjyptGy22qDTyoFh1YoZbtGJbN0iZSg0t5xzxoR4' });
                 if (token) {
                     console.log('FCM Token:', token);
                     return token;
