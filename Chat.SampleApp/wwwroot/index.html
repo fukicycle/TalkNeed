@@ -60,13 +60,26 @@
             }
         }
 
+        function checkNotification() {
+            if (Notification.permission === 'granted') {
+                console.log('通知が許可されています');
+                return true;
+            } else if (Notification.permission === 'denied') {
+                console.log('通知が拒否されています');
+            } else {
+                console.log('通知の許可状態がまだ決まっていません');
+            }
+            return false;
+        }
+
         onMessage(messaging, (payload) => {
             console.log('Message received. ', payload);
             // Process your incoming message here
         });
 
         window.firebaseMessaging = {
-            requestPermission: requestPermission
+            requestPermission: requestPermission,
+            checkNotification: checkNotification
         };
     </script>
     <!--<script>navigator.serviceWorker.register('firebase-service-worker.js');</script>-->

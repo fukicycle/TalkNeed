@@ -41,14 +41,18 @@
     {
         if (firstRender)
         {
-            if (await _ref.ShowAsync("Confirm", "This is chat app. Please confirm our notifications."))
+            if (!await JSRuntime.InvokeAsync<bool>("firebaseMessaging.checkNotification"))
             {
-                string token = await JSRuntime.InvokeAsync<string>("firebaseMessaging.requestPermission");
-                await UserService.AppendFCMTokenAsync(UserId, token);
-            }
-            else
-            {
-                await _ref.ShowAsync("Oh no", "Can not sending notification you...");
+                if (await _ref.ShowAsync("Confirm", "This is chat app. Please confirm our notifications."))
+                {
+                    string token = await JSRuntime.InvokeAsync<string>("firebaseMessaging.requestPermission");
+                    _ = UserService.AppendFCMTokenAsync(UserId, token).ConfigureAwait(false);
+                }
+                else
+                {
+                    await Task.Delay(100);
+                    await _ref.ShowAsync("Oh no", "Can not sending notification you...");
+                }
             }
         }
     }
