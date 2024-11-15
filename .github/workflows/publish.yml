@@ -20,7 +20,7 @@ jobs:
 
       # Publish the site
       - name: Publish
-        run: dotnet publish kotli-english/kotli-english.csproj -p:GHPages=true -c:Release -o:public
+        run: dotnet publish Chat.SampleApp/Chat.SampleApp.csproj -p:GHPages=true -c:Release -o:public
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
