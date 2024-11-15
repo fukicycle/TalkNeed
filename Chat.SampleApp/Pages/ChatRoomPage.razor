@@ -37,6 +37,8 @@
     private string? message { get; set; }
 
     private List<Message>? _messageList;
+    private CancellationTokenSource _cts = new CancellationTokenSource();
+    private DotNetObjectReference<ChatRoomPage>? dotNetObjectReference;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -51,7 +53,9 @@
         }, (ex) =>
         {
 
-        });
+        }, _cts.Token);
+        dotNetObjectReference = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("unloadInitialize", dotNetObjectReference);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -71,5 +75,12 @@
         Message newMessage = await ChatService.AddNewMessage(ChatRoomId, UserId, message);
         _messageList.Add(newMessage);
         message = string.Empty;
+    }
+
+    [JSInvokable]
+    public void Close()
+    {
+        _cts.Cancel();
+        _cts.Dispose();
     }
 }

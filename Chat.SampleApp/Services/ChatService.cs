@@ -39,7 +39,7 @@ public sealed class ChatService : IChatService
         return (await _firebaseService.GetListAsync<Message>(RESOURCE_NAME, chatId.ToString())).OrderBy(a => a.Timestamp).ToList();
     }
 
-    public async Task ListenAsync(Guid chatId, Action<Message> onNext, Action<Exception> onError)
+    public async Task ListenAsync(Guid chatId, Action<Message> onNext, Action<Exception> onError, CancellationToken token)
     {
         HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, $"{RESOURCE_NAME}/{chatId}/.json");
         requestMessage.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/event-stream"));
@@ -56,6 +56,7 @@ public sealed class ChatService : IChatService
                 {
                     try
                     {
+                        token.ThrowIfCancellationRequested();
                         string? line = await reader.ReadLineAsync();
                         if (string.IsNullOrEmpty(line))
                         {
@@ -79,6 +80,10 @@ public sealed class ChatService : IChatService
                             }
                             eventName = string.Empty;
                         }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break;
                     }
                     catch (Exception ex)
                     {
