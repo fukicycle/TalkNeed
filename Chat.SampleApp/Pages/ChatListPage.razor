@@ -1,7 +1,10 @@
 ﻿@page "/chat-list"
+@using Chat.SampleApp.Components
 @using Chat.SampleApp.Models
 @inject IChatRoomService ChatRoomService
+@inject IUserService UserService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 <div class="wrapper">
     <ul>
         @foreach (var chatRoom in _chatRoomList)
@@ -25,11 +28,30 @@
         }
     </ul>
 </div>
+<Dialog @ref=@_ref />
 @code {
     [SupplyParameterFromQuery(Name = "user-id")]
     public Guid UserId { get; set; }
 
     private List<ChatRoom> _chatRoomList = new List<ChatRoom>();
+
+    private Dialog _ref = null!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (await _ref.ShowAsync("Confirm", "This is chat app. Please confirm our notifications."))
+            {
+                string token = await JSRuntime.InvokeAsync<string>("firebaseMessaging.requestPermission");
+                await UserService.AppendFCMTokenAsync(UserId, token);
+            }
+            else
+            {
+                await _ref.ShowAsync("Oh no", "Can not sending notification you...");
+            }
+        }
+    }
 
     protected override async Task OnParametersSetAsync()
     {

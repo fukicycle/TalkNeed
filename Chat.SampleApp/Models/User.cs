@@ -13,6 +13,7 @@
             MessageList = messageList ?? Enumerable.Empty<Guid>();
         }
         public string Nickname { get; }
+        public string? FCMToken { get; set; }
         public IEnumerable<Guid> ChatRoomList { get; }
         public IEnumerable<Guid> MessageList { get; }
     }

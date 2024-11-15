@@ -10,6 +10,14 @@ namespace Chat.SampleApp.Services
         {
             _firebaseService = firebaseService;
         }
+
+        public async Task AppendFCMTokenAsync(Guid id, string fcmToken)
+        {
+            User user = await GetUserAsync(id);
+            user.FCMToken = fcmToken;
+            await _firebaseService.UpdateAsync(user, RESOURCE_NAME, id.ToString());
+        }
+
         public async Task<User> GetUserAsync(Guid id)
         {
             return await _firebaseService.GetAsync<User>(RESOURCE_NAME, id.ToString());

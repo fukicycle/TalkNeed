@@ -6,5 +6,6 @@ namespace Chat.SampleApp.Services
     {
         Task<Guid> RegisterAsync(string nickname);
         Task<User> GetUserAsync(Guid id);
+        Task AppendFCMTokenAsync(Guid id, string fcmToken);
     }
 }
