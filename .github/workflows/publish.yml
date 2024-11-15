@@ -1,0 +1,41 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v3
+
+      # Install .NET Core SDK and wasm-tools
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      # Publish the site
+      - name: Publish
+        run: dotnet publish kotli-english/kotli-english.csproj -p:GHPages=true -c:Release -o:public
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public/wwwroot
+  
+  deploy:
+     needs: build
+     permissions:
+       pages: write
+       id-token: write
+     environment:
+       name: github-pages
+       url: ${{ steps.deployment.outputs.page_url }}
+     runs-on: ubuntu-latest
+     steps:
+       - name: Deploy to GitHub Pages
+         id: deployment
+         uses: actions/deploy-pages@v4
