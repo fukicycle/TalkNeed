@@ -28,12 +28,10 @@
     <script src="js/unload.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
+        // Initialize Firebase app
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-messaging.js";
 
-        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDSB0ARDSxLjtVot3a0T778Klb2seSKo_k",
             authDomain: "test-chat-36e47.firebaseapp.com",
@@ -41,12 +39,37 @@
             projectId: "test-chat-36e47",
             storageBucket: "test-chat-36e47.firebasestorage.app",
             messagingSenderId: "42540604174",
-            appId: "1:42540604174:web:27a3998d86931e877e555f"
+            appId: "1:42540604174:web:27a3998d86931e877e555f",
+            measurementId: "G-M331Y7PSGQ"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+        async function requestPermission() {
+            try {
+                const token = await getToken(messaging, { vapidKey: 'BICW34W-sY9fCLNG8RIVS7gk5_ojVJKKG0Nqqr-6jUjbHf2rjyptGy22qDTyoFh1YoZbtGJbN0iZSg0t5xzxoR4' });
+                if (token) {
+                    console.log('FCM Token:', token);
+                    return token;
+                } else {
+                    console.log('No registration token available. Request permission to generate one.');
+                }
+            } catch (error) {
+                console.error('An error occurred while retrieving token. ', error);
+            }
+        }
+
+        onMessage(messaging, (payload) => {
+            console.log('Message received. ', payload);
+            // Process your incoming message here
+        });
+
+        window.firebaseMessaging = {
+            requestPermission: requestPermission
+        };
     </script>
+    <!--<script>navigator.serviceWorker.register('firebase-service-worker.js');</script>-->
 </body>
 
 </html>
