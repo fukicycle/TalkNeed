@@ -41,7 +41,7 @@
     {
         if (firstRender)
         {
-            if (!await JSRuntime.InvokeAsync<bool>("firebaseMessaging.checkNotification"))
+            if (!await JSRuntime.InvokeAsync<bool>("checkNotification"))
             {
                 if (await _ref.ShowAsync("Confirm", "This is chat app. Please confirm our notifications."))
                 {

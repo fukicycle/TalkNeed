@@ -26,6 +26,7 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="js/scroll.js"></script>
     <script src="js/unload.js"></script>
+    <script src="js/checkNotification.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script type="module">
         // Initialize Firebase app
@@ -60,17 +61,7 @@
             }
         }
 
-        function checkNotification() {
-            if (Notification.permission === 'granted') {
-                console.log('通知が許可されています');
-                return true;
-            } else if (Notification.permission === 'denied') {
-                console.log('通知が拒否されています');
-            } else {
-                console.log('通知の許可状態がまだ決まっていません');
-            }
-            return false;
-        }
+
 
         onMessage(messaging, (payload) => {
             console.log('Message received. ', payload);
@@ -78,8 +69,7 @@
         });
 
         window.firebaseMessaging = {
-            requestPermission: requestPermission,
-            checkNotification: checkNotification
+            requestPermission: requestPermission
         };
     </script>
     <!--<script>navigator.serviceWorker.register('firebase-service-worker.js');</script>-->
