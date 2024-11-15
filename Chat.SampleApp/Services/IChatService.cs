@@ -5,6 +5,7 @@ namespace Chat.SampleApp.Services;
 
 public interface IChatService
 {
-    Task<IEnumerable<Message>> GetMessageListAsync(Guid chatId);
-    Task AddNewMessage(Guid chatId, Guid userId, string message);
+    Task<List<Message>> GetMessageListAsync(Guid chatId);
+    Task<Message> AddNewMessage(Guid chatId, Guid userId, string message);
+    Task ListenAsync(Guid chatId, Action<Message> onNext, Action<Exception> onError);
 }

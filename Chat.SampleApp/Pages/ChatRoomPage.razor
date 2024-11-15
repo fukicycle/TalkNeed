@@ -1,28 +1,28 @@
 ﻿@page "/chat-room"
 @inject IChatService ChatService
+@inject IJSRuntime JSRuntime
 @using Chat.SampleApp.Models;
 <div class="wrapper">
-    <div class="list">
-        @if (_messageList == null)
-        {
-            <Chat.SampleApp.Components.Loader />
-        }
-        else
-        {
-            <ul>
-                @foreach (var item in _messageList)
-                {
-                    <li>
-                        <div>
-                            <div class="sender">@item.Sender</div>
-                            <div class="message">@item.Content</div>
-                        </div>
-                        <div class="timestamp">@item.Timestamp.ToString("HH:mm")</div>
-                    </li>
-                }
-            </ul>
-        }
-    </div>
+    @if (_messageList == null)
+    {
+        <Chat.SampleApp.Components.Loader />
+        <div>Loading</div>
+    }
+    else
+    {
+        <ul id="container">
+            @foreach (var item in _messageList)
+            {
+                <li>
+                    <div>
+                        <div class="sender">@item.Sender</div>
+                        <div class="message">@item.Content</div>
+                    </div>
+                    <div class="timestamp">@item.Timestamp.ToString("HH:mm")</div>
+                </li>
+            }
+        </ul>
+    }
     <div>
         <input class="input" type="text" @bind=@message />
         <button class="btn" @onclick=@SendButtonOnClick>Send</button>
@@ -36,19 +36,40 @@
 
     private string? message { get; set; }
 
-    private IEnumerable<Message>? _messageList;
+    private List<Message>? _messageList;
 
     protected override async Task OnParametersSetAsync()
     {
         _messageList = await ChatService.GetMessageListAsync(ChatRoomId);
+        await ChatService.ListenAsync(ChatRoomId, (message) =>
+        {
+            if (_messageList != null && !_messageList.Any(a => a.Id == message.Id))
+            {
+                _messageList.Add(message);
+                StateHasChanged();
+            }
+        }, (ex) =>
+        {
+
+        });
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("forceScroll");
+        }
     }
 
     private async Task SendButtonOnClick()
     {
-        if (string.IsNullOrEmpty(message))
+        if (string.IsNullOrEmpty(message) || _messageList == null)
         {
             return;
         }
-        await ChatService.AddNewMessage(ChatRoomId, UserId, message);
+        Message newMessage = await ChatService.AddNewMessage(ChatRoomId, UserId, message);
+        _messageList.Add(newMessage);
+        message = string.Empty;
     }
 }

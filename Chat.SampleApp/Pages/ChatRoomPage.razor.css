@@ -1,4 +1,5 @@
 .wrapper {
+    position: relative;
     height: 100%;
     padding: var(--space-l);
     display: grid;
@@ -7,13 +8,18 @@
     grid-gap: var(--space-l);
 }
 
-.wrapper>div:last-child {
-    display: flex;
-    gap: var(--space-l);
-}
+    .wrapper > div:last-child {
+        display: flex;
+        gap: var(--space-l);
+    }
 
-.wrapper>div:last-child>.btn {
-    width: auto;
+        .wrapper > div:last-child > .btn {
+            width: auto;
+        }
+
+ul {
+    height: 100%;
+    overflow: auto;
 }
 
 ul,
@@ -27,6 +33,7 @@ li {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: auto;
     grid-gap: var(--space-l);
+    border-bottom: solid 1px var(--primary-color-600);
 }
 
 .sender,

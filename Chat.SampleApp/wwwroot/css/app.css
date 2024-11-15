@@ -34,11 +34,11 @@ h1:focus {
 /*from*/
 
 :root {
-    --primary-color-400: #C9E6F0;
-    --primary-color-600: #78B3CE;
+    --primary-color-400: #F1DEC9;
+    --primary-color-600: #C8B6A6;
     --black: #333333;
     --white: #FBF8EF;
-    --accent-color: #F96E2A;
+    --accent-color: #8D7B68;
     --box-shadow-s: 0 2px 4px 0 rgba(0,0,0,.25);
     --box-shadow-m: 0 4px 8px 0 rgba(0,0,0,.25);
     --box-shadow-l: 0 8px 16px 0 rgba(0,0,0,.25);
@@ -65,6 +65,15 @@ body {
     background: linear-gradient(to bottom, var(--primary-color-400),var(--primary-color-600)) no-repeat;
     color: var(--black);
     font-size: 16px;
+    font-family: "Noto Sans JP", "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+main {
+    max-width: 768px;
+    margin: auto;
 }
 
 .glass {
@@ -94,9 +103,12 @@ body {
     box-shadow: var(--box-shadow-s) inset;
     width: 100%;
     font-size: 16px;
+    font-family: inherit;
+    background-color: var(--primary-color-400);
 }
 
 .btn {
+    font-family: inherit;
     width: 100%;
     padding: var(--space-l);
     outline: none;
@@ -113,21 +125,43 @@ body {
         box-shadow: var(--box-shadow-s);
     }
 
-.roboto-regular {
-    font-family: "Roboto", sans-serif;
+.not-sans-jp-400 {
+    font-family: "Noto Sans JP", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
 }
 
-.roboto-bold {
-    font-family: "Roboto", sans-serif;
-    font-weight: 700;
+.noto-sans-400 {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.noto-sans-600 {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
     font-style: normal;
 }
 
 .title {
-    font-size: 24px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 700;
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
     font-style: normal;
+    font-size: 24px;
+}
+
+*::-webkit-scrollbar {
+    width: 4px;
+    background-color: var(--primary-color-400);
+    border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color-600);
+    width: 2px;
+    border-radius: 2px;
 }
