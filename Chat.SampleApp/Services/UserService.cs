@@ -29,7 +29,7 @@ namespace Chat.SampleApp.Services
             {
                 throw new ArgumentNullException(nameof(nickname));
             }
-            User user = new User(Guid.NewGuid(), nickname, Enumerable.Empty<Guid>(), Enumerable.Empty<Guid>());
+            User user = new User(Guid.NewGuid(), nickname, string.Empty, Enumerable.Empty<Guid>(), Enumerable.Empty<Guid>());
             return await _firebaseService.AddAsync(user, RESOURCE_NAME);
         }
     }

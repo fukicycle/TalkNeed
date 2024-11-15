@@ -15,7 +15,7 @@ namespace Chat.SampleApp.Services
         {
             var user = await _firebaseService.GetAsync<User>("users_1", userId.ToString());
             IEnumerable<Guid> chatRoomList = user.ChatRoomList.Append(chatId);
-            var updateUser = new User(user.Id, user.Nickname, chatRoomList, user.MessageList);
+            var updateUser = new User(user.Id, user.Nickname, user.FCMToken, chatRoomList, user.MessageList);
             await _firebaseService.UpdateAsync(updateUser, "users_1", userId.ToString());
         }
 

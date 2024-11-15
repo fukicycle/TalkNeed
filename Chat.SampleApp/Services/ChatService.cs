@@ -29,7 +29,7 @@ public sealed class ChatService : IChatService
             IEnumerable<Guid> chatRoomMessageIdList = chatRoom.MessageList.Append(id);
             IEnumerable<Guid> userMessageIdList = user.MessageList.Append(id);
             await _firebaseService.UpdateAsync(new ChatRoom(chatRoom.Id, chatRoom.Title, message, newMessage.Timestamp, chatRoomMessageIdList), "chat_rooms_1", chatId.ToString());
-            await _firebaseService.UpdateAsync(new User(userId, user.Nickname, user.ChatRoomList, userMessageIdList), "users_1", userId.ToString());
+            await _firebaseService.UpdateAsync(new User(userId, user.Nickname, user.FCMToken, user.ChatRoomList, userMessageIdList), "users_1", userId.ToString());
         });
         return newMessage;
     }
